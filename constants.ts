@@ -50,10 +50,7 @@ export const RESUME_DATA: ResumeData = {
       period: "Fall 2024",
       role: "Lead Researcher",
       video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // Replace with your actual video URL
-      images: [
-        "https://placehold.co/800x450/e2e8f0/64748b?text=Project+Setup", // Replace with actual image URL
-        "https://placehold.co/800x450/e2e8f0/64748b?text=Results+Graph"  // Replace with actual image URL
-      ],
+      images: [],
       details: [
         "Collaboration: Co-led research with Naian Tao; leveraged 3D-ViTac hardware with mentorship from PhD candidate Binghao Huang.",
         "System Integration: Built a low-cost teleoperation setup (~$250) using the open-source SO100-ARM and high-density 3D-ViTac sensors, fully integrated with LeRobot APIs.",
@@ -152,15 +149,15 @@ export const RESUME_DATA: ResumeData = {
   skills: [
     {
       category: "Programming",
-      items: ["Python", "C Language", "Matlab"]
+      items: ["Python", "C/C++", "Matlab"]
     },
     {
       category: "Embedded & Control",
-      items: ["Microcontrollers", "PLC (Siemens TIA Portal)", "Beckhoff TWINCAT3", "PID Control", "Mechatronics"]
+      items: ["ROS2", "Microcontrollers", "PLC (Siemens TIA Portal)", "Beckhoff TWINCAT3", "PID Control", "Mechatronics"]
     },
     {
       category: "Simulation & CAD",
-      items: ["SolidWorks", "FLO-EFD", "Simulink", "COMSOL", "Ansys", "Falstad", "Optimum-lap", "Factory IO"]
+      items: ["Genesis", "MuJoCo", "Gazebo", "SolidWorks", "Simulink", "COMSOL", "Ansys", "Falstad", "Optimum-lap", "Factory IO"]
     }
   ]
 };
