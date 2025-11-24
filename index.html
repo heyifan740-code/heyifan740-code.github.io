@@ -1,27 +1,279 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Yifan He | Robotics & Control</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-      body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; }
+        /* 简单的淡入动画 */
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0"
-  }
-}
-</script>
 </head>
-  <body>
+<body class="bg-slate-50 text-slate-800">
     <div id="root"></div>
-  </body>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- 1. 这里放入你的个人数据 (已清洗格式) ---
+        const RESUME_DATA = {
+            contact: {
+                name: "Yifan He",
+                email: "yh3921@columbia.edu",
+                phone: "+1-347-556-1694",
+                title: "M.S. in Robotics and Control",
+                location: "New York, NY"
+            },
+            summary: "Master's student at Columbia University specializing in Robotics and Control. Strong foundation in Mechatronics, Embedded Systems, and Control Engineering. Proven track record in Formula Student competitions leading electrical teams. Proficient in Python, C, PLC programming, and mechanical design simulations.",
+            education: [
+                {
+                    institution: "Columbia University",
+                    location: "New York, USA",
+                    degree: "Master of Science",
+                    major: "Mechanical Engineering",
+                    concentration: "Robotics and Control",
+                    period: "Current",
+                    details: ["Specializing in advanced control theory and robotic systems."]
+                },
+                {
+                    institution: "Ningbo University",
+                    location: "China",
+                    degree: "Bachelor of Engineering",
+                    major: "Mechanical Engineering and Its Automation",
+                    concentration: "Mechatronics",
+                    period: "09/2020 - 07/2024",
+                    details: [
+                        "GPA: Core courses usually 3.5+/4.0",
+                        "Technique Foundation Of Industrial Robot (3.93/4)",
+                        "Probability Theory (3.97/4)",
+                        "Python Programming (3.85/4)"
+                    ]
+                }
+            ],
+            publications: [
+                {
+                    title: "Research on DC Motor Driven by Microcontroller Based on PID Control",
+                    conference: "2023 3rd International Conference on Mechanical Engineering (MEIMIE 2023)",
+                    date: "10/2023"
+                }
+            ],
+            research: [
+                {
+                    title: "Tactile Encoder Comparison for Imitation Learning",
+                    period: "Fall 2024",
+                    role: "Lead Researcher",
+                    tags: ["Robotics", "Computer Vision", "Imitation Learning"],
+                    details: [
+                        "Co-led research leveraging 3D-ViTac hardware.",
+                        "Built a low-cost teleoperation setup (~$250) using SO100-ARM.",
+                        "Benchmarked ResNet vs MLP encoders; ResNet achieved 98.9% accuracy.",
+                        "Achieved 90% success in pick-and-place tasks with just 50 training epochs."
+                    ]
+                },
+                {
+                    title: "Microelectromechanical Systems & DC Motor PID Control",
+                    period: "04/2023 - 08/2023",
+                    role: "Independent Researcher",
+                    tags: ["PID Control", "Simulink", "Circuit Design"],
+                    details: [
+                        "Modeled PID controllers using Matlab Simulink.",
+                        "Designed and simulated circuit models with Falstad.",
+                        "Built actual physical circuits on Tinkercad for experimentation."
+                    ]
+                },
+                {
+                    title: "Formula Student Battery Management System",
+                    role: "Formula Student Electric China",
+                    period: "03/2023 - 04/2024",
+                    tags: ["BMS", "Embedded Systems", "PCB"],
+                    details: [
+                        "Created the basic architecture of the battery management system (BMS).",
+                        "Conducted SOC calculation using a microcontroller and LSTM.",
+                        "Updated BMS data reception method to RS485-Bluetooth."
+                    ]
+                }
+            ],
+            experience: [
+                {
+                    role: "PLC Software Engineer Intern",
+                    company: "Ningbo Junpu Intelligent Manufacturing Co., Ltd.",
+                    period: "07/2023 - 08/2023",
+                    details: [
+                        "Programmed Siemens PLC controllers using TIA Portal.",
+                        "Utilized FACTORY IO simulation for code verification.",
+                        "Used Beckhoff TWINCAT3 for communication simulation."
+                    ]
+                }
+            ],
+            skills: [
+                { category: "Programming", items: ["Python", "C/C++", "Matlab"] },
+                { category: "Embedded & Control", items: ["ROS2", "Microcontrollers", "PLC (Siemens)", "Beckhoff TWINCAT3", "PID Control"] },
+                { category: "Simulation & CAD", items: ["MuJoCo", "Gazebo", "SolidWorks", "Simulink", "Ansys", "Falstad"] }
+            ]
+        };
+
+        // --- 2. 组件代码 (负责显示内容) ---
+        
+        const Icon = ({ name, className }) => {
+            useEffect(() => { lucide.createIcons(); }, [name]);
+            return <i data-lucide={name} className={className}></i>;
+        };
+
+        const SectionTitle = ({ children }) => (
+            <h2 className="text-2xl font-bold text-slate-800 mb-6 border-b pb-2">{children}</h2>
+        );
+
+        const Card = ({ title, subtitle, period, details, tags }) => (
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 mb-4 hover:shadow-md transition duration-300">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
+                    <div>
+                        <h3 className="text-lg font-bold text-slate-900">{title}</h3>
+                        {subtitle && <div className="text-blue-600 font-medium">{subtitle}</div>}
+                    </div>
+                    {period && <div className="text-slate-500 text-sm bg-slate-100 px-2 py-1 rounded mt-2 md:mt-0 inline-block">{period}</div>}
+                </div>
+                
+                {tags && (
+                    <div className="flex flex-wrap gap-2 mb-3">
+                        {tags.map((tag, i) => (
+                            <span key={i} className="text-xs font-medium px-2 py-1 bg-blue-50 text-blue-600 rounded-full">
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                )}
+
+                {details && (
+                    <ul className="list-disc list-inside text-slate-600 space-y-1 text-sm">
+                        {details.map((item, index) => (
+                            <li key={index} className="leading-relaxed">{item}</li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+        );
+
+        const App = () => {
+            useEffect(() => { lucide.createIcons(); }, []);
+
+            return (
+                <div className="min-h-screen flex flex-col max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 fade-in">
+                    
+                    {/* Header */}
+                    <header className="text-center mb-16">
+                        <h1 className="text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">{RESUME_DATA.contact.name}</h1>
+                        <p className="text-xl text-blue-600 font-medium mb-4">{RESUME_DATA.contact.title}</p>
+                        <p className="text-slate-600 max-w-2xl mx-auto leading-relaxed">{RESUME_DATA.summary}</p>
+                        
+                        <div className="flex justify-center gap-4 mt-8">
+                            <a href={`mailto:${RESUME_DATA.contact.email}`} className="flex items-center gap-2 bg-slate-900 text-white px-5 py-2.5 rounded-lg hover:bg-slate-800 transition">
+                                <Icon name="mail" className="w-4 h-4" /> Contact Me
+                            </a>
+                            <a href="https://github.com/heyifan740-code" target="_blank" className="flex items-center gap-2 border border-slate-300 px-5 py-2.5 rounded-lg hover:bg-slate-50 transition">
+                                <Icon name="github" className="w-4 h-4" /> GitHub
+                            </a>
+                        </div>
+                    </header>
+
+                    {/* Education */}
+                    <section className="mb-16">
+                        <SectionTitle>Education</SectionTitle>
+                        <div className="grid md:grid-cols-2 gap-6">
+                            {RESUME_DATA.education.map((edu, idx) => (
+                                <Card 
+                                    key={idx}
+                                    title={edu.institution}
+                                    subtitle={`${edu.degree} in ${edu.major}`}
+                                    period={edu.period}
+                                    details={edu.details}
+                                />
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Research Projects */}
+                    <section className="mb-16">
+                        <SectionTitle>Research & Projects</SectionTitle>
+                        <div className="space-y-6">
+                            {RESUME_DATA.research.map((project, idx) => (
+                                <Card 
+                                    key={idx}
+                                    title={project.title}
+                                    subtitle={project.role}
+                                    period={project.period}
+                                    tags={project.tags}
+                                    details={project.details}
+                                />
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Experience */}
+                    <section className="mb-16">
+                        <SectionTitle>Experience</SectionTitle>
+                        {RESUME_DATA.experience.map((exp, idx) => (
+                            <Card 
+                                key={idx}
+                                title={exp.role}
+                                subtitle={exp.company}
+                                period={exp.period}
+                                details={exp.details}
+                            />
+                        ))}
+                    </section>
+
+                     {/* Publications */}
+                     <section className="mb-16">
+                        <SectionTitle>Publications</SectionTitle>
+                        {RESUME_DATA.publications.map((pub, idx) => (
+                            <div key={idx} className="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                                <h3 className="font-semibold text-slate-900">{pub.title}</h3>
+                                <p className="text-sm text-slate-600 mt-1">{pub.conference}</p>
+                            </div>
+                        ))}
+                    </section>
+
+                    {/* Skills */}
+                    <section className="mb-16">
+                        <SectionTitle>Skills</SectionTitle>
+                        <div className="grid md:grid-cols-3 gap-6">
+                            {RESUME_DATA.skills.map((skillGroup, idx) => (
+                                <div key={idx} className="bg-white p-5 rounded-lg border border-slate-100">
+                                    <h3 className="font-bold text-slate-800 mb-3">{skillGroup.category}</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {skillGroup.items.map((item, i) => (
+                                            <span key={i} className="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded font-medium">
+                                                {item}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    <footer className="text-center text-slate-400 text-sm py-8 border-t">
+                        © 2025 Yifan He. All rights reserved.
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
 </html>
