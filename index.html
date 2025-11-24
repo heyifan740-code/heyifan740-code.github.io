@@ -5,25 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Yifan He | Robotics & Control</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     
-    <!-- Babel -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         body { font-family: 'Inter', sans-serif; }
-        /* 隐藏滚动条但保留功能 */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
@@ -34,7 +28,7 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // --- 1. 核心数据 (Resume Data) ---
+        // --- 1. 完整版核心数据 (已恢复所有截图中的细节) ---
         const RESUME_DATA = {
             contact: {
                 name: "Yifan He",
@@ -52,21 +46,31 @@
                     degree: "Master of Science",
                     major: "Mechanical Engineering",
                     concentration: "Robotics and Control",
-                    period: "Current"
+                    period: "Current",
+                    details: [
+                        "Specializing in advanced control theory and robotic systems."
+                    ]
                 },
                 {
                     institution: "Ningbo University",
                     location: "China",
                     degree: "Bachelor of Engineering",
-                    major: "Mechanical Engineering",
+                    major: "Mechanical Engineering and Its Automation",
                     concentration: "Mechatronics",
-                    period: "09/2020 - 07/2024"
+                    period: "09/2020 - 07/2024",
+                    details: [
+                        "GPA: Core courses usually 3.5+/4.0",
+                        "Technique Foundation Of Industrial Robot (3.93/4)",
+                        "Probability Theory (3.97/4)",
+                        "Python Programming (3.85/4)",
+                        "Mechanical Design (3.58/4)"
+                    ]
                 }
             ],
             publications: [
                 {
                     title: "Research on DC Motor Driven by Microcontroller Based on PID Control",
-                    conference: "2023 3rd International Conference on Mechanical Engineering (MEIMIE 2023)",
+                    conference: "2023 3rd International Conference on Mechanical Engineering, Industrial Materials and Industrial Electronics (MEIMIE 2023), Denver, USA",
                     date: "10/2023"
                 }
             ],
@@ -75,22 +79,49 @@
                     title: "Tactile Encoder Comparison for Imitation Learning",
                     period: "Fall 2024",
                     role: "Lead Researcher",
-                    video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4",
+                    // 视频路径
+                    videos: ["arm.mp4", "tactile.mp4"],
                     details: [
-                        "Co-led research with Naian Tao; leveraged 3D-ViTac hardware.",
-                        "Built a low-cost teleoperation setup (~$250) using SO100-ARM.",
-                        "Benchmarked ResNet vs MLP encoders; ResNet achieved 98.9% accuracy.",
-                        "Achieved 90% success in pick-and-place tasks with just 50 training epochs."
+                        "Collaboration: Co-led research with Naian Tao; leveraged 3D-ViTac hardware with mentorship from PhD candidate Binghao Huang.",
+                        "System Integration: Built a low-cost teleoperation setup (~$250) using the open-source SO100-ARM and high-density 3D-ViTac sensors, fully integrated with LeRobot APIs.",
+                        "Encoder Analysis: Benchmarked MLP, CNN, Spatial Attention-CNN, and ResNet encoders on fine-grained object classification tasks.",
+                        "Performance: ResNet achieved state-of-the-art accuracy (98.9%), effectively extracting complex spatial features where shallower networks (MLP 33-91%) struggled.",
+                        "Imitation Learning (ACT): Deployed the best-performing ResNet encoder within an Action Chunking with Transformers (ACT) policy. Achieved 90% success in pick-and-place tasks with just 50 training epochs (Last Point)."
                     ]
                 },
                 {
-                    title: "Microelectromechanical Systems & DC Motor PID Control",
+                    title: "Research on Microelectromechanical Systems & DC Motor PID Control",
                     period: "04/2023 - 08/2023",
                     role: "Independent Researcher",
                     details: [
-                        "Modeled PID controllers using Matlab Simulink.",
-                        "Designed and simulated circuit models with Falstad.",
-                        "Built actual physical circuits on Tinkercad for experimentation."
+                        "Independently completed thesis on mechanical automation and digital control circuits.",
+                        "Modeled PID (Proportional-Integral-Differential) controllers using Matlab Simulink software to simulate its control behavior and performance.",
+                        "Calculated transfer functions theoretically and verified simulations.",
+                        "Designed and simulated circuit models with Falstad circuit simulation software.",
+                        "Built actual physical circuits on Tinkercad for experimentation and testing.",
+                        "Compared the control effects of proportional controller vs integral controller."
+                    ]
+                },
+                {
+                    title: "Design and Development of Power Battery Management System",
+                    role: "Formula Student Electric China",
+                    period: "03/2023 - 04/2024",
+                    details: [
+                        "Created the basic architecture of the battery management system (BMS).",
+                        "Designed the acquisition module circuit and performed low-voltage electrical layout.",
+                        "Conducted SOC calculation using a microcontroller and SOC calculation based on LSTM.",
+                        "Updated BMS data reception method by changing RS485-USB to RS485-Bluetooth for real-time monitoring."
+                    ]
+                },
+                {
+                    title: "Power Battery Thermal Management System Research",
+                    period: "12/2023 - 06/2024",
+                    role: "Formula Student China",
+                    details: [
+                        "Established a thermal model for lithium-ion cells and calculated thermophysical parameters.",
+                        "Studied heat generation mechanisms, analyzed conductive heat transfer, and completed thermal simulation by FLOEFD.",
+                        "Researched battery box structure, calculated fan airflow, and simulated heat dissipation systems.",
+                        "Employed SolidWorks for 3D simulation of electric cell monomer and battery box."
                     ]
                 }
             ],
@@ -100,9 +131,11 @@
                     company: "Ningbo Junpu Intelligent Manufacturing Co., Ltd.",
                     period: "07/2023 - 08/2023",
                     details: [
-                        "Performed structured language programming on Siemens PLC controllers using TIA Portal.",
-                        "Utilized FACTORY IO simulation program to create 3D industrial site structure.",
-                        "Used Beckhoff PLC software TWINCAT3 to port existing code."
+                        "Performed structured language programming on Siemens PLC controllers using TIA Portal software for inbound/outbound warehouse operations.",
+                        "Utilized FACTORY IO simulation program to create 3D industrial site structure and connect with TIA PORTAL for code verification.",
+                        "Implemented visualization of process critical signals in TIA PORTAL.",
+                        "Standardized program blocks, data blocks, and variable naming formats to improve code readability.",
+                        "Used Beckhoff PLC software TWINCAT3 to port existing code and establish communication simulation."
                     ]
                 }
             ],
@@ -111,29 +144,42 @@
                     title: "Electrical Team Leader & Safety Officer",
                     company: "Formula Student Electric China (NIO Cup 2022)",
                     period: "09/2021 - 10/2022",
+                    role: "Team Leader",
                     details: [
-                        "Team won the National Third Prize.",
+                        "Achievement: Team won the National Third Prize.",
                         "Designed battery box to meet vehicle performance criteria.",
-                        "Calculated race power and chose motors based on maximum speed."
+                        "Calculated race power and chose motors based on maximum speed and linear acceleration.",
+                        "Utilized Optimum Lap and Cruise software to simulate and calculate race car energy usage.",
+                        "Designed wiring harness from vehicle controller to battery box/motor controller.",
+                        "Constructed high voltage circuits and verified compliance with regulations."
+                    ]
+                },
+                {
+                    title: "Electrical Team Member",
+                    company: "Formula Student Electric China (NIO Cup 2021)",
+                    period: "09/2020 - 11/2021",
+                    details: [
+                        "Achievement: Team won the National Third Prize.",
+                        "Responsible for installation and layout of low-voltage electrical wiring harnesses.",
+                        "Assisted in internal electrical design of the battery box.",
+                        "Learned Battery Management System knowledge."
                     ]
                 }
             ],
             skills: [
                 { category: "Programming", items: ["Python", "C/C++", "Matlab"] },
-                { category: "Embedded & Control", items: ["ROS2", "Microcontrollers", "PLC", "PID Control"] },
-                { category: "Simulation & CAD", items: ["MuJoCo", "Gazebo", "SolidWorks", "Simulink"] }
+                { category: "Embedded & Control", items: ["ROS2", "Microcontrollers", "PLC (Siemens TIA Portal)", "Beckhoff TWINCAT3", "PID Control", "Mechatronics"] },
+                { category: "Simulation & CAD", items: ["Genesis", "MuJoCo", "Gazebo", "SolidWorks", "Simulink", "COMSOL", "Ansys", "Falstad", "Optimum-lap", "Factory IO"] }
             ]
         };
 
-        // --- 2. 基础组件 (Icons & UI) ---
+        // --- 2. 基础组件 ---
         
-        // 通用图标组件
         const Icon = ({ name, size = 20, className = "" }) => {
             useEffect(() => { lucide.createIcons(); }, [name]);
             return <i data-lucide={name} style={{ width: size, height: size }} className={`inline-block ${className}`}></i>;
         };
 
-        // 模拟 App.tsx 里的图标 import
         const ScrollText = (props) => <Icon name="scroll-text" {...props} />;
         const FlaskConical = (props) => <Icon name="flask-conical" {...props} />;
         const Briefcase = (props) => <Icon name="briefcase" {...props} />;
@@ -141,14 +187,15 @@
         const Mail = (props) => <Icon name="mail" {...props} />;
         const Github = (props) => <Icon name="github" {...props} />;
         const MapPin = (props) => <Icon name="map-pin" {...props} />;
-        const Phone = (props) => <Icon name="phone" {...props} />;
         const MessageSquare = (props) => <Icon name="message-square" {...props} />;
 
-        // --- 3. 重建缺失的组件 (Sidebar, Section, ExperienceItem) ---
+        // --- 3. 主要组件 ---
 
         const Sidebar = () => (
             <aside className="lg:w-72 lg:fixed lg:h-screen bg-slate-900 text-white p-8 flex flex-col overflow-y-auto no-scrollbar z-50">
                 <div className="mb-8">
+                    {/* 你可以在这里加一个 img 标签来放头像，如果有的话 */}
+                    <div className="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mb-4 text-2xl font-bold">YH</div>
                     <h1 className="text-2xl font-bold mb-2">{RESUME_DATA.contact.name}</h1>
                     <p className="text-blue-400 font-medium">{RESUME_DATA.contact.title}</p>
                 </div>
@@ -165,7 +212,6 @@
                     </div>
                 </div>
 
-                {/* 既然 App.tsx 主区域没有 Education, 我们必须把它放侧边栏 */}
                 <div className="mb-8">
                     <h3 className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-4">Education</h3>
                     <div className="space-y-6">
@@ -192,15 +238,9 @@
             </aside>
         );
 
-        const Section = ({ title, children, id }) => (
-            <section id={id} className="mb-16 scroll-mt-20">
-                <h3 className="text-2xl font-bold text-slate-900 mb-6 border-b border-slate-200 pb-2">{title}</h3>
-                {children}
-            </section>
-        );
-
-        const ExperienceItem = ({ title, subtitle, period, details, video }) => (
-            <div className="mb-8 last:mb-0 group">
+        // 项目卡片组件
+        const ExperienceItem = ({ title, subtitle, period, details, videos }) => (
+            <div className="mb-10 last:mb-0 group">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
                     <div>
                         <h4 className="text-lg font-bold text-slate-900">{title}</h4>
@@ -211,12 +251,20 @@
                     </div>
                 </div>
                 
-                {video && (
-                    <div className="my-4 rounded-lg overflow-hidden bg-slate-100 border border-slate-200">
-                       <video controls className="w-full max-h-64 object-cover">
-                            <source src={video} type="video/mp4" />
-                            Your browser does not support the video tag.
-                       </video>
+                {/* 视频展示区 */}
+                {videos && videos.length > 0 && (
+                    <div className="my-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                       {videos.map((vid, index) => (
+                           <div key={index} className="rounded-lg overflow-hidden bg-black border border-slate-200 shadow-sm">
+                               <video controls preload="metadata" className="w-full h-48 object-cover">
+                                    <source src={vid} type="video/mp4" />
+                                    Your browser does not support the video tag.
+                               </video>
+                               <div className="bg-slate-50 text-xs text-center py-1 text-slate-500">
+                                   Demo {index + 1}
+                               </div>
+                           </div>
+                       ))}
                     </div>
                 )}
 
@@ -224,7 +272,7 @@
                     <ul className="space-y-2 mt-3">
                         {details.map((item, idx) => (
                             <li key={idx} className="flex gap-2 text-slate-600 leading-relaxed text-sm">
-                                <span className="text-blue-400 mt-1.5">•</span>
+                                <span className="text-blue-400 mt-1.5 min-w-[6px]">•</span>
                                 <span>{item}</span>
                             </li>
                         ))}
@@ -236,38 +284,34 @@
         const ChatInterface = () => (
             <div className="fixed bottom-6 right-6 z-50">
                 <button className="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition-all hover:scale-105 flex items-center gap-2" 
-                        onClick={() => alert("AI Chat feature requires a backend server. This is a demo button.")}>
+                        onClick={() => alert("AI Chat feature requires a backend server.")}>
                     <MessageSquare size={24} />
-                    <span className="font-medium hidden md:inline">Ask about Yifan</span>
+                    <span className="font-medium hidden md:inline">Chat with Resume</span>
                 </button>
             </div>
         );
 
-        // --- 4. 你的 App 代码 (已微调以适配浏览器环境) ---
+        // --- 4. 主程序 ---
         
         const App = () => {
             return (
                 <div className="min-h-screen bg-white font-sans text-slate-800 flex flex-col lg:flex-row">
                 
-                {/* Left Sidebar */}
                 <Sidebar />
                 
-                {/* Main Content Area */}
                 <main className="flex-1 lg:ml-72 p-0">
-                    
-                    {/* Mobile-only Header Spacer */}
                     <div className="h-4 bg-white lg:hidden"></div>
 
                     <div className="max-w-4xl mx-auto px-6 py-12 lg:py-20">
                     
-                    {/* Summary / Intro */}
+                    {/* Summary */}
                     <div className="mb-16">
                         <p className="text-xl leading-relaxed text-slate-600 font-light border-l-4 border-blue-500 pl-6">
                             {RESUME_DATA.summary}
                         </p>
                     </div>
 
-                    {/* 1. Publications */}
+                    {/* Publications */}
                     <div className="mb-16">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
@@ -275,12 +319,11 @@
                             </div>
                             <h3 className="text-2xl font-bold text-slate-900">Publications</h3>
                         </div>
-                        
                         <div className="pl-4 border-l border-slate-100 ml-5">
                             {RESUME_DATA.publications.map((pub, idx) => (
                             <div key={idx} className="mb-6 last:mb-0 relative">
                                 <div className="absolute -left-[21px] top-1.5 w-3 h-3 rounded-full bg-blue-500 border-2 border-white ring-2 ring-blue-100"></div>
-                                <h4 className="font-semibold text-slate-900 text-lg leading-snug hover:text-blue-600 transition">{pub.title}</h4>
+                                <h4 className="font-semibold text-slate-900 text-lg leading-snug">{pub.title}</h4>
                                 <p className="text-slate-500 mt-1 text-base">{pub.conference}</p>
                                 <span className="inline-block mt-2 text-sm text-slate-400 font-mono bg-slate-50 px-2 py-0.5 rounded">
                                 {pub.date}
@@ -290,7 +333,7 @@
                         </div>
                     </div>
 
-                    {/* 2. Academic Research */}
+                    {/* Academic Research (视频显示在这里) */}
                     <div className="mb-16">
                         <div className="flex items-center gap-3 mb-8 text-slate-400 border-b border-slate-100 pb-4">
                             <FlaskConical size={20} />
@@ -303,12 +346,12 @@
                                 subtitle={proj.role || "Researcher"}
                                 period={proj.period}
                                 details={proj.details}
-                                video={proj.video}
+                                videos={proj.videos} 
                             />
                         ))}
                     </div>
 
-                    {/* 3. Internships */}
+                    {/* Internships */}
                     <div className="mb-16">
                         <div className="flex items-center gap-3 mb-8 text-slate-400 border-b border-slate-100 pb-4">
                             <Briefcase size={20} />
@@ -325,7 +368,7 @@
                         ))}
                     </div>
 
-                    {/* 4. Competitions */}
+                    {/* Competitions */}
                     <div className="mb-16">
                         <div className="flex items-center gap-3 mb-8 text-slate-400 border-b border-slate-100 pb-4">
                             <Trophy size={20} />
@@ -342,14 +385,12 @@
                         ))}
                     </div>
 
-                    {/* Footer */}
                     <div className="pt-12 text-left text-slate-300 text-sm mt-12 border-t border-slate-100">
                         &copy; {new Date().getFullYear()} Yifan He.
                     </div>
 
                     </div>
                 </main>
-
                 <ChatInterface />
                 </div>
             );
