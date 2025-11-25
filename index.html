@@ -364,22 +364,7 @@
                             />
                         ))}
                     </div>
-
-                    {/* Competitions */}
-                    <div id="competitions" className="mb-20 scroll-mt-20">
-                         <h2 className="text-3xl font-black text-gray-900 mb-10 section-title uppercase tracking-tight">Competitions</h2>
-                        {RESUME_DATA.competitions.map((comp, idx) => (
-                            <ExperienceItem
-                                key={idx}
-                                title={comp.title}
-                                subtitle={comp.company || ""}
-                                period={comp.period}
-                                details={comp.details}
-                                videos={comp.videos}
-                            />
-                        ))}
-                    </div>
-
+                        
                     {/* Internships */}
                     <div id="internships" className="mb-20 scroll-mt-20">
                          <h2 className="text-3xl font-black text-gray-900 mb-10 section-title uppercase tracking-tight">Internships</h2>
@@ -391,6 +376,21 @@
                                 period={exp.period}
                                 details={exp.details}
                                 videos={exp.videos}
+                            />
+                        ))}
+                    </div>
+                        
+                    {/* Competitions */}
+                    <div id="competitions" className="mb-20 scroll-mt-20">
+                         <h2 className="text-3xl font-black text-gray-900 mb-10 section-title uppercase tracking-tight">Competitions</h2>
+                        {RESUME_DATA.competitions.map((comp, idx) => (
+                            <ExperienceItem
+                                key={idx}
+                                title={comp.title}
+                                subtitle={comp.company || ""}
+                                period={comp.period}
+                                details={comp.details}
+                                videos={comp.videos}
                             />
                         ))}
                     </div>
