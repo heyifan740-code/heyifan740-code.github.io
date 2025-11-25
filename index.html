@@ -22,7 +22,6 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         html { scroll-behavior: smooth; }
         
-        /* 极简主义的重点强调样式 */
         .section-title {
             position: relative;
             padding-left: 1rem;
@@ -34,7 +33,7 @@
             top: 10%;
             height: 80%;
             width: 4px;
-            background-color: #111; /* 纯黑强调条 */
+            background-color: #111;
             border-radius: 2px;
         }
     </style>
@@ -53,7 +52,10 @@
                 phone: "+1-347-556-1694",
                 title: "M.S. in Robotics and Control",
                 location: "New York, NY",
-                github: "https://github.com/heyifan740-code"
+                github: "https://github.com/heyifan740-code",
+                // 这里设置头像文件名，确保你上传的文件名是 avatar.jpg
+                // 如果你上传的是 png，请把这里改成 "avatar.png"
+                avatar: "avatar.jpg"
             },
             summary: "First year master's student at Columbia University specializing in Robotics and Control. Strong interests in Robotics, Robot Learning, Mechatronics, and Autonomous Formula Vehicle. Proven track record in Formula Student competitions leading electrical teams.",
             education: [
@@ -75,7 +77,6 @@
                     major: "Mechanical Engineering and Its Automation",
                     concentration: "Mechatronics",
                     period: "09/2020 - 07/2024",
-                    // 修改：本科成绩合并为一行
                     details: [
                         "GPA: 3.5+/4.0 (Core) | Key Scores: Industrial Robot (3.93), Probability (3.97), Python (3.85), Mech Design (3.58)"
                     ]
@@ -88,7 +89,6 @@
                     date: "10/2023"
                 }
             ],
-            // 标题已改为 Projects
             projects: [
                 {
                     title: "Tactile Encoder Comparison for Imitation Learning",
@@ -103,15 +103,11 @@
                         "Imitation Learning (ACT): Deployed the best-performing ResNet encoder within an Action Chunking with Transformers (ACT) policy. Achieved 90% success in pick-and-place tasks with just 50 training epochs (Last Point)."
                     ]
                 },
-                // 新增：双足机器人 RL 项目 (位置 #2)
                 {
                     title: "Reinforcement Learning Control for Bipedal Robot",
                     period: "Current",
                     role: " ",
-                    // 重要：这里为你预留了两个位置，上传文件后把文件名填在这里
-                    // 例如：videos: ["robot_design.jpg", "simulation_demo.mp4"],
-                    // 如果暂时没有文件，可以先留空，或者放两张占位图
-                    videos: [], 
+                    videos: ["biped_design.png", "biped_sim.mp4"], 
                     details: [
                         "Robot Design: Independently designed and modeled a miniature bipedal robot (inspired by OpenDuckMini), optimizing mechanical structure for dynamic stability and low inertia.",
                         "Pure RL Approach: Developing robust locomotion policies using pure Reinforcement Learning (PPO algorithm) without relying on imitation learning or motion capture data.",
@@ -210,12 +206,25 @@
             return <i data-lucide={name} style={{ width: size, height: size }} className={`inline-block ${className}`}></i>;
         };
 
-        // --- 3. Sidebar (改为白色极简风格) ---
+        // --- 3. Sidebar ---
 
         const Sidebar = () => (
             <aside className="lg:w-72 lg:fixed lg:h-screen bg-white border-r border-gray-100 text-gray-800 p-10 flex flex-col overflow-y-auto no-scrollbar z-50">
                 <div className="mb-10">
-                    <div className="w-16 h-16 bg-gray-900 text-white rounded-full flex items-center justify-center mb-6 text-xl font-bold tracking-tighter">YH</div>
+                    {/* 头像显示逻辑：有图片显示图片，没图片显示文字 */}
+                    <div className="w-20 h-20 rounded-full overflow-hidden mb-6 bg-gray-100 border border-gray-200">
+                        <img 
+                            src={RESUME_DATA.contact.avatar} 
+                            alt={RESUME_DATA.contact.name}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                                // 如果图片加载失败（比如没上传），回退到显示文字
+                                e.target.style.display = 'none';
+                                e.target.parentNode.innerHTML = '<div class="w-full h-full flex items-center justify-center bg-gray-900 text-white text-xl font-bold">YH</div>';
+                            }}
+                        />
+                    </div>
+                    
                     <h1 className="text-3xl font-extrabold mb-2 tracking-tight text-black">{RESUME_DATA.contact.name}</h1>
                     <p className="text-gray-500 font-medium text-sm leading-relaxed">{RESUME_DATA.contact.title}</p>
                 </div>
@@ -257,7 +266,7 @@
             </aside>
         );
 
-        // 项目卡片组件 (极简设计)
+        // 项目卡片组件
         const ExperienceItem = ({ title, subtitle, period, details, videos }) => (
             <div className="mb-12 last:mb-0 group">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-3">
@@ -270,21 +279,23 @@
                     </div>
                 </div>
                 
-                {/* 视频展示区 (占位符) */}
+                {/* 视频/图片展示区 */}
                 {videos && videos.length > 0 ? (
                     <div className="my-5 grid grid-cols-1 md:grid-cols-2 gap-4">
                        {videos.map((vid, index) => (
                            <div key={index} className="rounded-lg overflow-hidden bg-gray-100 border border-gray-200 aspect-video flex items-center justify-center relative group/video">
-                               {vid.endsWith('.mp4') || vid.endsWith('.webm') ? (
+                               {vid.match(/\.(mp4|webm|ogg)$/i) ? (
                                    <video controls preload="metadata" className="w-full h-full object-cover">
                                         <source src={vid} type="video/mp4" />
                                    </video>
                                ) : (
-                                   // 如果是图片或还没上传
-                                   <div className="text-gray-400 text-sm flex flex-col items-center gap-2">
-                                        <Icon name="image" size={24} />
-                                        <span>Preview {index + 1}</span>
-                                   </div>
+                                   /* 图片处理 */
+                                   <img src={vid} alt={`Project media ${index+1}`} className="w-full h-full object-cover" 
+                                        onError={(e) => {
+                                            e.target.style.display = 'none';
+                                            e.target.parentNode.innerHTML = `<div class="text-gray-400 text-sm flex flex-col items-center gap-2"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><span>Upload ${vid}</span></div>`;
+                                        }} 
+                                   />
                                )}
                            </div>
                        ))}
@@ -315,14 +326,14 @@
                 <main className="flex-1 lg:ml-72 p-0">
                     <div className="max-w-4xl mx-auto px-8 py-16 lg:py-24">
                     
-                    {/* 1. Summary */}
+                    {/* Summary */}
                     <div className="mb-20">
                         <p className="text-xl md:text-2xl leading-relaxed text-gray-600 font-light">
                             {RESUME_DATA.summary}
                         </p>
                     </div>
 
-                    {/* 2. Education */}
+                    {/* Education */}
                     <div id="education" className="mb-20 scroll-mt-20">
                         <h2 className="text-3xl font-black text-gray-900 mb-10 section-title uppercase tracking-tight">Education</h2>
                         {RESUME_DATA.education.map((edu, idx) => (
@@ -336,7 +347,7 @@
                         ))}
                     </div>
 
-                    {/* 3. Projects (原 Research Projects) */}
+                    {/* Projects */}
                     <div id="projects" className="mb-20 scroll-mt-20">
                         <h2 className="text-3xl font-black text-gray-900 mb-10 section-title uppercase tracking-tight">Projects</h2>
                         {RESUME_DATA.projects.map((proj, idx) => (
@@ -351,7 +362,7 @@
                         ))}
                     </div>
 
-                    {/* 4. Competitions */}
+                    {/* Competitions */}
                     <div id="competitions" className="mb-20 scroll-mt-20">
                          <h2 className="text-3xl font-black text-gray-900 mb-10 section-title uppercase tracking-tight">Competitions</h2>
                         {RESUME_DATA.competitions.map((comp, idx) => (
@@ -365,7 +376,7 @@
                         ))}
                     </div>
 
-                    {/* 5. Internships */}
+                    {/* Internships */}
                     <div id="internships" className="mb-20 scroll-mt-20">
                          <h2 className="text-3xl font-black text-gray-900 mb-10 section-title uppercase tracking-tight">Internships</h2>
                         {RESUME_DATA.experience.map((exp, idx) => (
@@ -379,7 +390,7 @@
                         ))}
                     </div>
 
-                    {/* 6. Publications */}
+                    {/* Publications */}
                     <div id="publications" className="mb-20 scroll-mt-20">
                          <h2 className="text-3xl font-black text-gray-900 mb-10 section-title uppercase tracking-tight">Publications</h2>
                         {RESUME_DATA.publications.map((pub, idx) => (
