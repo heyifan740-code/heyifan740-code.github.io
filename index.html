@@ -20,6 +20,7 @@
         body { font-family: 'Inter', sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        html { scroll-behavior: smooth; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -28,7 +29,7 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // --- 1. 完整版核心数据 (已恢复所有截图中的细节) ---
+        // --- 1. 核心数据 ---
         const RESUME_DATA = {
             contact: {
                 name: "Yifan He",
@@ -38,7 +39,8 @@
                 location: "New York, NY",
                 github: "https://github.com/heyifan740-code"
             },
-            summary: "Master's student at Columbia University specializing in Robotics and Control. Strong foundation in Mechatronics, Embedded Systems, and Control Engineering. Proven track record in Formula Student competitions leading electrical teams.",
+            // 更新后的 Summary
+            summary: "First year master's student at Columbia University specializing in Robotics and Control. Strong interests in Robotics, Robot Learning, Mechatronics, and Autonomous Formula Vehicle. Proven track record in Formula Student competitions leading electrical teams.",
             education: [
                 {
                     institution: "Columbia University",
@@ -48,7 +50,8 @@
                     concentration: "Robotics and Control",
                     period: "Current",
                     details: [
-                        "Specializing in advanced control theory and robotic systems."
+                        // 更新后的课程细节
+                        "Relevant Coursework: Reinforcement Learning, Probabilistic Robotics, Robot Studio, Data Science for Mechanical Engineers."
                     ]
                 },
                 {
@@ -70,7 +73,7 @@
             publications: [
                 {
                     title: "Research on DC Motor Driven by Microcontroller Based on PID Control",
-                    conference: "2023 3rd International Conference on Mechanical Engineering, Industrial Materials and Industrial Electronics (MEIMIE 2023), Denver, USA",
+                    conference: "2023 3rd International Conference on Mechanical Engineering (MEIMIE 2023), Denver, USA",
                     date: "10/2023"
                 }
             ],
@@ -79,7 +82,6 @@
                     title: "Tactile Encoder Comparison for Imitation Learning",
                     period: "Fall 2024",
                     role: "Lead Researcher",
-                    // 视频路径
                     videos: ["arm.mp4", "tactile.mp4"],
                     details: [
                         "Collaboration: Co-led research with Naian Tao; leveraged 3D-ViTac hardware with mentorship from PhD candidate Binghao Huang.",
@@ -111,17 +113,6 @@
                         "Designed the acquisition module circuit and performed low-voltage electrical layout.",
                         "Conducted SOC calculation using a microcontroller and SOC calculation based on LSTM.",
                         "Updated BMS data reception method by changing RS485-USB to RS485-Bluetooth for real-time monitoring."
-                    ]
-                },
-                {
-                    title: "Power Battery Thermal Management System Research",
-                    period: "12/2023 - 06/2024",
-                    role: "Formula Student China",
-                    details: [
-                        "Established a thermal model for lithium-ion cells and calculated thermophysical parameters.",
-                        "Studied heat generation mechanisms, analyzed conductive heat transfer, and completed thermal simulation by FLOEFD.",
-                        "Researched battery box structure, calculated fan airflow, and simulated heat dissipation systems.",
-                        "Employed SolidWorks for 3D simulation of electric cell monomer and battery box."
                     ]
                 }
             ],
@@ -168,8 +159,8 @@
             ],
             skills: [
                 { category: "Programming", items: ["Python", "C/C++", "Matlab"] },
-                { category: "Embedded & Control", items: ["ROS2", "Microcontrollers", "PLC (Siemens TIA Portal)", "Beckhoff TWINCAT3", "PID Control", "Mechatronics"] },
-                { category: "Simulation & CAD", items: ["Genesis", "MuJoCo", "Gazebo", "SolidWorks", "Simulink", "COMSOL", "Ansys", "Falstad", "Optimum-lap", "Factory IO"] }
+                { category: "Embedded & Control", items: ["ROS2", "Microcontrollers", "PLC", "PID Control"] },
+                { category: "Simulation & CAD", items: ["MuJoCo", "Gazebo", "SolidWorks", "Simulink", "COMSOL", "Ansys"] }
             ]
         };
 
@@ -184,17 +175,18 @@
         const FlaskConical = (props) => <Icon name="flask-conical" {...props} />;
         const Briefcase = (props) => <Icon name="briefcase" {...props} />;
         const Trophy = (props) => <Icon name="trophy" {...props} />;
+        const GraduationCap = (props) => <Icon name="graduation-cap" {...props} />;
         const Mail = (props) => <Icon name="mail" {...props} />;
         const Github = (props) => <Icon name="github" {...props} />;
         const MapPin = (props) => <Icon name="map-pin" {...props} />;
         const MessageSquare = (props) => <Icon name="message-square" {...props} />;
+        const List = (props) => <Icon name="list" {...props} />;
 
-        // --- 3. 主要组件 ---
+        // --- 3. Sidebar (新增目录导航) ---
 
         const Sidebar = () => (
             <aside className="lg:w-72 lg:fixed lg:h-screen bg-slate-900 text-white p-8 flex flex-col overflow-y-auto no-scrollbar z-50">
                 <div className="mb-8">
-                    {/* 你可以在这里加一个 img 标签来放头像，如果有的话 */}
                     <div className="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mb-4 text-2xl font-bold">YH</div>
                     <h1 className="text-2xl font-bold mb-2">{RESUME_DATA.contact.name}</h1>
                     <p className="text-blue-400 font-medium">{RESUME_DATA.contact.title}</p>
@@ -212,17 +204,18 @@
                     </div>
                 </div>
 
+                {/* 新增：目录导航 (Contents) */}
                 <div className="mb-8">
-                    <h3 className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-4">Education</h3>
-                    <div className="space-y-6">
-                        {RESUME_DATA.education.map((edu, idx) => (
-                            <div key={idx}>
-                                <div className="font-bold text-white">{edu.institution}</div>
-                                <div className="text-xs text-blue-400 mt-1">{edu.degree}</div>
-                                <div className="text-xs text-slate-500 mt-1">{edu.period}</div>
-                            </div>
-                        ))}
-                    </div>
+                    <h3 className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
+                        <List size={14} /> Contents
+                    </h3>
+                    <nav className="space-y-2">
+                        <a href="#education" className="block text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded transition text-sm">Education</a>
+                        <a href="#research" className="block text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded transition text-sm">Research Projects</a>
+                        <a href="#competitions" className="block text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded transition text-sm">Competitions</a>
+                        <a href="#experience" className="block text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded transition text-sm">Internships</a>
+                        <a href="#publications" className="block text-slate-300 hover:text-white hover:bg-slate-800 px-3 py-2 rounded transition text-sm">Publications</a>
+                    </nav>
                 </div>
 
                 <div>
@@ -238,7 +231,7 @@
             </aside>
         );
 
-        // 项目卡片组件
+        // 项目经历卡片
         const ExperienceItem = ({ title, subtitle, period, details, videos }) => (
             <div className="mb-10 last:mb-0 group">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-2">
@@ -251,7 +244,6 @@
                     </div>
                 </div>
                 
-                {/* 视频展示区 */}
                 {videos && videos.length > 0 && (
                     <div className="my-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                        {videos.map((vid, index) => (
@@ -291,7 +283,7 @@
             </div>
         );
 
-        // --- 4. 主程序 ---
+        // --- 4. 主程序 (右侧布局调整：教育经历移至此处) ---
         
         const App = () => {
             return (
@@ -304,15 +296,84 @@
 
                     <div className="max-w-4xl mx-auto px-6 py-12 lg:py-20">
                     
-                    {/* Summary */}
+                    {/* 1. Summary */}
                     <div className="mb-16">
                         <p className="text-xl leading-relaxed text-slate-600 font-light border-l-4 border-blue-500 pl-6">
                             {RESUME_DATA.summary}
                         </p>
                     </div>
 
-                    {/* Publications */}
-                    <div className="mb-16">
+                    {/* 2. Education (已移动到右侧) */}
+                    <div id="education" className="mb-16 scroll-mt-10">
+                        <div className="flex items-center gap-3 mb-8 text-slate-400 border-b border-slate-100 pb-4">
+                            <GraduationCap size={20} />
+                            <span className="uppercase tracking-widest text-xs font-bold">Education</span>
+                        </div>
+                        {RESUME_DATA.education.map((edu, idx) => (
+                            <ExperienceItem
+                                key={idx}
+                                title={edu.institution}
+                                subtitle={`${edu.degree} in ${edu.major}, ${edu.concentration}`}
+                                period={edu.period}
+                                details={edu.details}
+                            />
+                        ))}
+                    </div>
+
+                    {/* 3. Research Projects */}
+                    <div id="research" className="mb-16 scroll-mt-10">
+                        <div className="flex items-center gap-3 mb-8 text-slate-400 border-b border-slate-100 pb-4">
+                            <FlaskConical size={20} />
+                            <span className="uppercase tracking-widest text-xs font-bold">Research Projects</span>
+                        </div>
+                        {RESUME_DATA.research.map((proj, idx) => (
+                            <ExperienceItem
+                                key={idx}
+                                title={proj.title}
+                                subtitle={proj.role || "Researcher"}
+                                period={proj.period}
+                                details={proj.details}
+                                videos={proj.videos} 
+                            />
+                        ))}
+                    </div>
+
+                    {/* 4. Competitions */}
+                    <div id="competitions" className="mb-16 scroll-mt-10">
+                        <div className="flex items-center gap-3 mb-8 text-slate-400 border-b border-slate-100 pb-4">
+                            <Trophy size={20} />
+                            <span className="uppercase tracking-widest text-xs font-bold">Competitions</span>
+                        </div>
+                        {RESUME_DATA.competitions.map((comp, idx) => (
+                            <ExperienceItem
+                                key={idx}
+                                title={comp.title}
+                                subtitle={comp.company || ""}
+                                period={comp.period}
+                                details={comp.details}
+                            />
+                        ))}
+                    </div>
+
+                    {/* 5. Internships */}
+                    <div id="experience" className="mb-16 scroll-mt-10">
+                        <div className="flex items-center gap-3 mb-8 text-slate-400 border-b border-slate-100 pb-4">
+                            <Briefcase size={20} />
+                            <span className="uppercase tracking-widest text-xs font-bold">Internships</span>
+                        </div>
+                        {RESUME_DATA.experience.map((exp, idx) => (
+                            <ExperienceItem
+                                key={idx}
+                                title={exp.role}
+                                subtitle={exp.company}
+                                period={exp.period}
+                                details={exp.details}
+                            />
+                        ))}
+                    </div>
+
+                    {/* 6. Publications */}
+                    <div id="publications" className="mb-16 scroll-mt-10">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
                                 <ScrollText size={24} />
@@ -331,58 +392,6 @@
                             </div>
                             ))}
                         </div>
-                    </div>
-
-                    {/* Academic Research (视频显示在这里) */}
-                    <div className="mb-16">
-                        <div className="flex items-center gap-3 mb-8 text-slate-400 border-b border-slate-100 pb-4">
-                            <FlaskConical size={20} />
-                            <span className="uppercase tracking-widest text-xs font-bold">Academic Research</span>
-                        </div>
-                        {RESUME_DATA.research.map((proj, idx) => (
-                            <ExperienceItem
-                                key={idx}
-                                title={proj.title}
-                                subtitle={proj.role || "Researcher"}
-                                period={proj.period}
-                                details={proj.details}
-                                videos={proj.videos} 
-                            />
-                        ))}
-                    </div>
-
-                    {/* Internships */}
-                    <div className="mb-16">
-                        <div className="flex items-center gap-3 mb-8 text-slate-400 border-b border-slate-100 pb-4">
-                            <Briefcase size={20} />
-                            <span className="uppercase tracking-widest text-xs font-bold">Professional Work</span>
-                        </div>
-                        {RESUME_DATA.experience.map((exp, idx) => (
-                            <ExperienceItem
-                                key={idx}
-                                title={exp.role}
-                                subtitle={exp.company}
-                                period={exp.period}
-                                details={exp.details}
-                            />
-                        ))}
-                    </div>
-
-                    {/* Competitions */}
-                    <div className="mb-16">
-                        <div className="flex items-center gap-3 mb-8 text-slate-400 border-b border-slate-100 pb-4">
-                            <Trophy size={20} />
-                            <span className="uppercase tracking-widest text-xs font-bold">Formula Student</span>
-                        </div>
-                        {RESUME_DATA.competitions.map((comp, idx) => (
-                            <ExperienceItem
-                                key={idx}
-                                title={comp.title}
-                                subtitle={comp.company || ""}
-                                period={comp.period}
-                                details={comp.details}
-                            />
-                        ))}
                     </div>
 
                     <div className="pt-12 text-left text-slate-300 text-sm mt-12 border-t border-slate-100">
