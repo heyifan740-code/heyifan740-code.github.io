@@ -285,7 +285,7 @@
                        {videos.map((vid, index) => (
                            <div key={index} className="rounded-lg overflow-hidden bg-gray-100 border border-gray-200 aspect-video flex items-center justify-center relative group/video">
                                {vid.match(/\.(mp4|webm|ogg)$/i) ? (
-                                   <video controls preload="metadata" className="w-full h-full object-cover">
+                                   <video controls muted preload="metadata" className="w-full h-full object-cover">
                                         <source src={vid} type="video/mp4" />
                                    </video>
                                ) : (
