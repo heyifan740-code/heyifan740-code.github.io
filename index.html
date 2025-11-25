@@ -92,7 +92,7 @@
             projects: [
                 {
                     title: "Tactile Encoder Comparison for Imitation Learning",
-                    period: "Fall 2024",
+                    period: "Fall 2025",
                     role: " ",
                     videos: ["arm.mp4", "tactile.mp4"],
                     details: [
@@ -285,12 +285,12 @@
                        {videos.map((vid, index) => (
                            <div key={index} className="rounded-lg overflow-hidden bg-gray-100 border border-gray-200 aspect-video flex items-center justify-center relative group/video">
                                {vid.match(/\.(mp4|webm|ogg)$/i) ? (
-                                   <video controls muted preload="metadata" className="w-full h-full object-cover">
+                                   <video controls muted preload="metadata" className="w-full h-full object-contain bg-black">
                                         <source src={vid} type="video/mp4" />
                                    </video>
                                ) : (
                                    /* 图片处理 */
-                                   <img src={vid} alt={`Project media ${index+1}`} className="w-full h-full object-cover" 
+                                   <img src={vid} alt={`Project media ${index+1}`} className="w-full h-full object-contain bg-black-100" 
                                         onError={(e) => {
                                             e.target.style.display = 'none';
                                             e.target.parentNode.innerHTML = `<div class="text-gray-400 text-sm flex flex-col items-center gap-2"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><span>Upload ${vid}</span></div>`;
