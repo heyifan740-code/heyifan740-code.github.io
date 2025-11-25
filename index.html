@@ -143,6 +143,7 @@
                     title: "Power Battery Thermal Management System Research",
                     period: "12/2023 - 06/2024",
                     role: "Formula Student China",
+                    videos: ["thermal_sim.jpg", "battery_box_render.png"],
                     details: [
                         "Established a thermal model for lithium-ion cells and calculated thermophysical parameters.",
                         "Studied heat generation mechanisms, analyzed conductive heat transfer, and completed thermal simulation by FLOEFD.",
@@ -156,6 +157,7 @@
                     role: "PLC Software Engineer Intern",
                     company: "Ningbo Junpu Intelligent Manufacturing Co., Ltd.",
                     period: "07/2023 - 08/2023",
+                    videos: ["plc_demo1.mp4", "plc_demo2.mp4"],
                     details: [
                         "Performed structured language programming on Siemens PLC controllers using TIA Portal software for inbound/outbound warehouse operations.",
                         "Utilized FACTORY IO simulation program to create 3D industrial site structure and connect with TIA PORTAL for code verification.",
@@ -171,6 +173,7 @@
                     company: "Formula Student Electric China (NIO Cup 2022)",
                     period: "09/2021 - 10/2022",
                     role: "Team Leader",
+                    videos: ["comp_photo1.jpg", "comp_photo2.png"],
                     details: [
                         "Achievement: Team won the National Third Prize.",
                         "Designed battery box to meet vehicle performance criteria.",
@@ -372,6 +375,7 @@
                                 subtitle={comp.company || ""}
                                 period={comp.period}
                                 details={comp.details}
+                                videos={comp.videos}
                             />
                         ))}
                     </div>
@@ -386,6 +390,7 @@
                                 subtitle={exp.company}
                                 period={exp.period}
                                 details={exp.details}
+                                videos={exp.videos}
                             />
                         ))}
                     </div>
